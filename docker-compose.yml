@@ -1,0 +1,15 @@
+version: '2'
+services:
+  web:
+    build: .
+    #ports:
+    #  - '80:80'
+    depends_on:
+      - redis
+    environment:
+      REDIS_HOST: 'redis'
+      REDIS_PORT: '6379'
+      VIRTUAL_HOST: mathman.docker
+  redis:
+    image: 'redis:3'
+
