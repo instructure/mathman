@@ -8,18 +8,18 @@ let Typeset = require('../typeset');
 describe('typeset', function() {
   let ts;
   this.timeout(10000);
-  
+
   before(function() {
     sinon.spy(mj, 'start');
     sinon.spy(mj, 'typeset');
     ts = new Typeset();
   });
-  
+
   after(function () {
     mj.start.restore();
     mj.typeset.restore();
   });
-  
+
   afterEach(function() {
     mj.start.reset();
     mj.typeset.reset();
@@ -28,11 +28,11 @@ describe('typeset', function() {
   it('should call start on mathjax-node when constructed the first time', function() {
     mj.start.calledOnce.should.be.true;
   });
-  
+
     it('should not call start on mathjax-node when constructed a second time.', function() {
     mj.start.called.should.be.false;
   });
-  
+
   it('should call mj.typeset with the correct parameters', function(done) {
     this.timeout(10000);
     let sampleTex = "a = b + c";
@@ -58,7 +58,7 @@ describe('typeset', function() {
       done();
     });
   });
-  
+
   it('should return data', function (done) {
     let sampleTex = "a = b + c";
     ts.typeset(sampleTex, function(err, data) {
@@ -73,7 +73,7 @@ describe('typeset', function() {
       done();
     });
   });
-  
+
   it('should fail on bad input', function (done) {
     let sampleTex = "a = \fra{}}";
     ts.typeset(sampleTex, function(err, data) {

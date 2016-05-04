@@ -12,7 +12,7 @@ class Typeset {
       calledStart = true;
     }
   }
-  
+
   typeset(tex, cb) {
     mj.typeset(
       {

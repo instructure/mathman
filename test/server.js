@@ -229,7 +229,7 @@ describe('server', function () {
       sendBadRequestArgs[0].should.be.equal(res);
       sendBadRequestArgs[1].should.equal(errors.join('\n'));
     });
-    
+
     it('should send response on typeset success', function () {
       server.ts.typeset.callsArgWith(1, null, typesetData);
       server.sendTypesetResponse(res, type, tex);
@@ -247,7 +247,7 @@ describe('server', function () {
       sendResponseArgs[1].should.equal(type);
       sendResponseArgs[2].should.equal(typesetData[type]);
     });
-    
+
         it('should cache response on typeset success', function () {
       server.ts.typeset.callsArgWith(1, null, typesetData);
       server.useRedis = true;
@@ -268,7 +268,7 @@ describe('server', function () {
       msetArgs[3].should.equal(typesetData['svg']);
     });
   });
-  
+
   describe('#sendCachedResponse', function () {
     let server;
     let res = {};
@@ -281,7 +281,7 @@ describe('server', function () {
       sinon.stub(server, 'sendResponse');
       server.redisCli = {get: sinon.stub()};
     });
-    
+
     it('defers to sendTypesetResponse if redis is not available', function () {
       server.sendCachedResponse(res, type, tex);
       server.sendTypesetResponse.calledOnce.should.be.true;
@@ -292,7 +292,7 @@ describe('server', function () {
       args[1].should.equal(type);
       args[2].should.equal(tex);
     });
-    
+
     it('defers to sendTypesetResponse on redis error', function () {
     server.useRedis = true;
     let err = "I'm not a monster Tom--well technically I am.";
@@ -310,7 +310,7 @@ describe('server', function () {
       sendArgs[1].should.equal(type);
       sendArgs[2].should.equal(tex);
     });
-    
+
     it('defers to sendTypesetResponse on empty redis reply', function () {
     server.useRedis = true;
     let reply = "";
@@ -328,7 +328,7 @@ describe('server', function () {
       sendArgs[1].should.equal(type);
       sendArgs[2].should.equal(tex);
     });
-    
+
     it('defers to sendResponse on cache hit', function () {
     server.useRedis = true;
     let reply = "because it's loud with the shop vac on.";
@@ -347,7 +347,7 @@ describe('server', function () {
       sendArgs[2].should.equal(reply);
     });
   });
-  
+
   describe('#handleRequest', function () {
     let server;
     let res = {};
@@ -361,11 +361,11 @@ describe('server', function () {
       sinon.stub(server, 'sendNotModified');
       sinon.spy(url, 'parse');
     });
-    
+
     afterEach(function () {
       url.parse.restore();
     });
-    
+
     it('should fail on non-get request type', function() {
       let invalidRequestTypes = ['', 'HEAD', 'POST', 'DELETE','z'];
       for (let requestType of invalidRequestTypes) {
@@ -386,7 +386,7 @@ describe('server', function () {
       server.handleRequest(req, res);
       server.sendError.calledOnce.should.be.false;
     });
-    
+
     it('should fail on invalid type', function () {
       let invalidTypes = ['', 'mathml', 'svgs', 'something', ''];
       for (let type of invalidTypes) {
@@ -412,7 +412,7 @@ describe('server', function () {
       server.sendError.reset();
       }
     });
-    
+
     it('should send bad request on missing tex parameter', function () {
       let req = {
         url: `http://localhost/svg/?broken=${escapedTex}`,
@@ -426,7 +426,7 @@ describe('server', function () {
       args[0].should.equal(res);
       args[1].should.equal("no LaTeX provided.");
     });
-    
+
     it('should send not modified header on if-modified-since', function () {
       let req = {
         url: `http://localhost/svg/?tex=${escapedTex}`,
@@ -439,7 +439,7 @@ describe('server', function () {
       args.should.have.lengthOf(1);
       args[0].should.equal(res);
     });
-    
+
     it('should unescape the tex parameter', function () {
       let req = {
         url: `http://localhost/svg/?tex=${escapedTex}`,

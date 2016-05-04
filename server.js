@@ -1,7 +1,6 @@
 'use strict';
 
 let redis = require('redis');
-let http = require('http');
 let url = require('url');
 let Typeset = require('./typeset');
 
@@ -91,9 +90,5 @@ class Server  {
   }
 }
 
-if (require.main === module || GLOBAL.PhusionPassenger) {
-  let server = new Server(process.env.REDIS_PORT, process.env.REDIS_HOST);
-  http.createServer(server.handleRequest.bind(server)).listen(8000);
-} else {
-  module.exports = Server;
-}
+module.exports = Server;
+
