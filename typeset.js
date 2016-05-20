@@ -16,7 +16,7 @@ class Typeset {
   typeset(tex, cb) {
     mj.typeset(
       {
-        math: tex,
+        math: decodeURIComponent(tex),
         format: "inline-TeX",
         svg:true,
         mml: true,
