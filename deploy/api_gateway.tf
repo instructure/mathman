@@ -39,7 +39,7 @@ resource "aws_api_gateway_integration" "svg_integration" {
     "application/json" = <<TEMPLATE
 #set($inputRoot = $input.path('$'))
 {
-  "tex": "$util.urlEncode($input.params('tex'))"
+  "tex": "$util.escapeJavaScript($input.params('tex')).replaceAll("\'","'")"
 }
 TEMPLATE
   }
@@ -106,7 +106,7 @@ resource "aws_api_gateway_integration" "mml_integration" {
     "application/json" = <<TEMPLATE
 #set($inputRoot = $input.path('$'))
 {
-  "tex": "$util.urlEncode($input.params('tex'))"
+  "tex": "$util.escapeJavaScript($input.params('tex')).replaceAll("\'","'")"
 }
 TEMPLATE
   }
