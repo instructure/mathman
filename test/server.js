@@ -5,9 +5,8 @@ let sinon = require('sinon');
 let Server = require('../server');
 let redis = require('redis');
 let url = require('url');
-let Typeset = require('../typeset');
+let typeset = require('../typeset');
 // run the typeset tests first.
-require('./typeset');
 
 describe('server', function () {
   describe('#constructur', function () {
@@ -45,11 +44,6 @@ describe('server', function () {
       args[0].should.equal(port);
       args[1].should.equal(host);
       server.redisCli.should.equal(redisCli);
-    });
-
-    it('should properly set up instances', function () {
-      let server = new Server;
-      server.ts.should.be.an.instanceof(Typeset);
     });
   });
 
@@ -205,7 +199,7 @@ describe('server', function () {
       server = new Server;
       sinon.stub(server, 'sendBadRequest');
       sinon.stub(server, 'sendResponse');
-      sinon.stub(server.ts, 'typeset');
+      sinon.stub(server, 'ts');
       server.redisCli = {mset: sinon.stub()};
     });
 
@@ -214,10 +208,10 @@ describe('server', function () {
         "She'll look the same except for bionic eyes.",
         "She lost the real ones in the robot wars."
       ];
-      server.ts.typeset.callsArgWith(1, errors);
+      server.ts.callsArgWith(1, errors);
       server.sendTypesetResponse(res, type, tex);
-      server.ts.typeset.calledOnce.should.be.true;
-      let typesetArgs = server.ts.typeset.lastCall.args;
+      server.ts.calledOnce.should.be.true;
+      let typesetArgs = server.ts.lastCall.args;
       typesetArgs.should.have.lengthOf(2);
       typesetArgs[0].should.equal(tex);
       typesetArgs[1].should.be.a('function');
@@ -231,10 +225,10 @@ describe('server', function () {
     });
 
     it('should send response on typeset success', function () {
-      server.ts.typeset.callsArgWith(1, null, typesetData);
+      server.ts.callsArgWith(1, null, typesetData);
       server.sendTypesetResponse(res, type, tex);
-      server.ts.typeset.calledOnce.should.be.true;
-      let typesetArgs = server.ts.typeset.lastCall.args;
+      server.ts.calledOnce.should.be.true;
+      let typesetArgs = server.ts.lastCall.args;
       typesetArgs.should.have.lengthOf(2);
       typesetArgs[0].should.equal(tex);
       typesetArgs[1].should.be.a('function');
@@ -249,11 +243,11 @@ describe('server', function () {
     });
 
         it('should cache response on typeset success', function () {
-      server.ts.typeset.callsArgWith(1, null, typesetData);
+      server.ts.callsArgWith(1, null, typesetData);
       server.useRedis = true;
       server.sendTypesetResponse(res, type, tex);
-      server.ts.typeset.calledOnce.should.be.true;
-      let typesetArgs = server.ts.typeset.lastCall.args;
+      server.ts.calledOnce.should.be.true;
+      let typesetArgs = server.ts.lastCall.args;
       typesetArgs.should.have.lengthOf(2);
       typesetArgs[0].should.equal(tex);
       typesetArgs[1].should.be.a('function');

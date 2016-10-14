@@ -2,11 +2,11 @@
 
 let redis = require('redis');
 let url = require('url');
-let Typeset = require('./typeset');
+let typeset = require('./typeset');
 
 class Server  {
   constructor(redisPort, redisHost) {
-    this.ts = new Typeset;
+    this.ts = typeset;
     this.useRedis = !!(redisHost && redisPort);
     if (this.useRedis) {
       this.redisCli = redis.createClient(redisPort, redisHost);
@@ -58,7 +58,7 @@ class Server  {
   }
 
   sendTypesetResponse(res, type, tex) {
-    this.ts.typeset(tex, (err, data) => {
+    this.ts(tex, (err, data) => {
       if (err) {
         this.sendBadRequest(res, err.join('\n'));
         return;

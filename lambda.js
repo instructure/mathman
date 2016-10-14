@@ -1,11 +1,14 @@
 'use strict';
 
-let Typeset = require('./typeset');
-
-let ts = new Typeset;
+let typeset = require('./typeset');
 
 exports.handler = function(event, context, cb) {
   console.log('>>> exports.handler');
   console.log(event.tex);
-  ts.typeset(event.tex, cb);
+
+  if (event.tex) {
+    typeset(event.tex, cb);
+  } else {
+    cb("[BadRequest] Missing field `tex`");
+  };
 };

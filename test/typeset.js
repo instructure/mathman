@@ -3,7 +3,7 @@
 let should = require('chai').should();
 let sinon = require('sinon');
 let mj = require("mathjax-node/lib/mj-single.js");
-let Typeset = require('../typeset');
+let typeset = require('../typeset');
 
 describe('typeset', function() {
   let ts;
@@ -12,7 +12,6 @@ describe('typeset', function() {
   before(function() {
     sinon.spy(mj, 'start');
     sinon.spy(mj, 'typeset');
-    ts = new Typeset();
   });
 
   after(function () {
@@ -25,18 +24,10 @@ describe('typeset', function() {
     mj.typeset.reset();
   });
 
-  it('should call start on mathjax-node when constructed the first time', function() {
-    mj.start.calledOnce.should.be.true;
-  });
-
-    it('should not call start on mathjax-node when constructed a second time.', function() {
-    mj.start.called.should.be.false;
-  });
-
   it('should call mj.typeset with the correct parameters', function(done) {
     this.timeout(10000);
     let sampleTex = "a = b + c";
-    ts.typeset(sampleTex, function(err) {
+    typeset(sampleTex, function(err) {
       if (err) {
         return done(err);
       }
@@ -61,7 +52,7 @@ describe('typeset', function() {
 
   it('should return data', function (done) {
     let sampleTex = "a = b + c";
-    ts.typeset(sampleTex, function(err, data) {
+    typeset(sampleTex, function(err, data) {
       try {
         should.not.exist(err);
         data.should.be.an('object');
@@ -76,7 +67,7 @@ describe('typeset', function() {
 
   it('should fail on bad input', function (done) {
     let sampleTex = "a = \fra{}}";
-    ts.typeset(sampleTex, function(err, data) {
+    typeset(sampleTex, function(err, data) {
       try {
         should.not.exist(data);
         err.should.be.an('array').and.not.empty;
