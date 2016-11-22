@@ -4,7 +4,7 @@ let mj = require("mathjax-node/lib/mj-single.js");
 
 let mjConfig = function(tex) {
   return {
-    math: decodeURIComponent(tex),
+    math: tex,
     format: "inline-TeX",
     svg:true,
     mml: true,
