@@ -4,7 +4,7 @@ let mj = require("mathjax-node/lib/mj-single.js");
 
 let mjConfig = function(tex) {
   return {
-    math: tex,
+    math: cleanTex(tex),
     format: "inline-TeX",
     svg:true,
     mml: true,
@@ -13,6 +13,10 @@ let mjConfig = function(tex) {
     width: 100,
     linebreaks: true
   }
+};
+
+let cleanTex = function(tex) {
+  return tex.replace(/\\slash/, '/')
 };
 
 let mjCallback = function(cb) {

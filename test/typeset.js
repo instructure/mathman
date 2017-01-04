@@ -65,6 +65,18 @@ describe('typeset', function() {
     });
   });
 
+  it('replaces `\\slash` with `/`', function (done) {
+    let sampleTex = "5 = 15 \\slash 3";
+    typeset(sampleTex, function(err, data) {
+      try {
+        data.mml.should.not.match(/\\slash/);
+      } catch (err) {
+        return done(err);
+      }
+      done();
+    });
+  });
+
   it('should fail on bad input', function (done) {
     let sampleTex = "a = \fra{}}";
     typeset(sampleTex, function(err, data) {
