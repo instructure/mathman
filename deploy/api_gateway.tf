@@ -1,4 +1,4 @@
-resource "aws_api_gateway_account" "account" {
+resource "aws_api_gateway_account" "mathman_account" {
   cloudwatch_role_arn = "${aws_iam_role.api-gateway-cloudwatch-role.arn}"
 }
 
@@ -45,6 +45,7 @@ TEMPLATE
   }
 }
 
+# 200 response
 resource "aws_api_gateway_method_response" "svg_200" {
   rest_api_id = "${aws_api_gateway_rest_api.mathman_api_gateway.id}"
   resource_id = "${aws_api_gateway_resource.svg.id}"
@@ -63,6 +64,7 @@ resource "aws_api_gateway_integration_response" "svg_integration_response" {
   resource_id = "${aws_api_gateway_resource.svg.id}"
   http_method = "${aws_api_gateway_method.svg_method.http_method}"
   status_code = "${aws_api_gateway_method_response.svg_200.status_code}"
+  selection_pattern = "-"
   response_templates = {
     "image/svg+xml" = "$util.parseJson($input.json('$.svg'))"
   }
@@ -72,6 +74,38 @@ resource "aws_api_gateway_integration_response" "svg_integration_response" {
   "method.response.header.Vary": "'Accept-Encoding'"
 }
 PARAMS
+}
+
+#400 response
+resource "aws_api_gateway_method_response" "svg_400" {
+  rest_api_id = "${aws_api_gateway_rest_api.mathman_api_gateway.id}"
+  resource_id = "${aws_api_gateway_resource.svg.id}"
+  http_method = "${aws_api_gateway_method.svg_method.http_method}"
+  status_code = "400"
+}
+
+resource "aws_api_gateway_integration_response" "svg_400_integration_response" {
+  rest_api_id = "${aws_api_gateway_rest_api.mathman_api_gateway.id}"
+  resource_id = "${aws_api_gateway_resource.svg.id}"
+  http_method = "${aws_api_gateway_method.svg_method.http_method}"
+  status_code = "${aws_api_gateway_method_response.svg_400.status_code}"
+  selection_pattern = "^\\[BadRequest\\].*"
+}
+
+#422 response
+resource "aws_api_gateway_method_response" "svg_422" {
+  rest_api_id = "${aws_api_gateway_rest_api.mathman_api_gateway.id}"
+  resource_id = "${aws_api_gateway_resource.svg.id}"
+  http_method = "${aws_api_gateway_method.svg_method.http_method}"
+  status_code = "422"
+}
+
+resource "aws_api_gateway_integration_response" "svg_422_integration_response" {
+  rest_api_id = "${aws_api_gateway_rest_api.mathman_api_gateway.id}"
+  resource_id = "${aws_api_gateway_resource.svg.id}"
+  http_method = "${aws_api_gateway_method.svg_method.http_method}"
+  status_code = "${aws_api_gateway_method_response.svg_422.status_code}"
+  selection_pattern = "^TeX parse error.*"
 }
 
 # `GET /mml?tex=<string>`
@@ -112,6 +146,7 @@ TEMPLATE
   }
 }
 
+#200 response
 resource "aws_api_gateway_method_response" "mml_200" {
   rest_api_id = "${aws_api_gateway_rest_api.mathman_api_gateway.id}"
   resource_id = "${aws_api_gateway_resource.mml.id}"
@@ -130,6 +165,7 @@ resource "aws_api_gateway_integration_response" "mml_integration_response" {
   resource_id = "${aws_api_gateway_resource.mml.id}"
   http_method = "${aws_api_gateway_method.mml_method.http_method}"
   status_code = "${aws_api_gateway_method_response.mml_200.status_code}"
+  selection_pattern = "-"
   response_templates = {
     "image/mathml+xml" = "$util.parseJson($input.json('$.mml'))"
   }
@@ -139,5 +175,37 @@ resource "aws_api_gateway_integration_response" "mml_integration_response" {
   "method.response.header.Vary": "'Accept-Encoding'"
 }
 PARAMS
+}
+
+#400 response
+resource "aws_api_gateway_method_response" "mml_400" {
+  rest_api_id = "${aws_api_gateway_rest_api.mathman_api_gateway.id}"
+  resource_id = "${aws_api_gateway_resource.mml.id}"
+  http_method = "${aws_api_gateway_method.mml_method.http_method}"
+  status_code = "400"
+}
+
+resource "aws_api_gateway_integration_response" "mml_400_integration_response" {
+  rest_api_id = "${aws_api_gateway_rest_api.mathman_api_gateway.id}"
+  resource_id = "${aws_api_gateway_resource.mml.id}"
+  http_method = "${aws_api_gateway_method.mml_method.http_method}"
+  status_code = "${aws_api_gateway_method_response.mml_400.status_code}"
+  selection_pattern = "^\\[BadRequest\\].*"
+}
+
+#422 response
+resource "aws_api_gateway_method_response" "mml_422" {
+  rest_api_id = "${aws_api_gateway_rest_api.mathman_api_gateway.id}"
+  resource_id = "${aws_api_gateway_resource.mml.id}"
+  http_method = "${aws_api_gateway_method.mml_method.http_method}"
+  status_code = "422"
+}
+
+resource "aws_api_gateway_integration_response" "mml_422_integration_response" {
+  rest_api_id = "${aws_api_gateway_rest_api.mathman_api_gateway.id}"
+  resource_id = "${aws_api_gateway_resource.mml.id}"
+  http_method = "${aws_api_gateway_method.mml_method.http_method}"
+  status_code = "${aws_api_gateway_method_response.mml_422.status_code}"
+  selection_pattern = "^TeX parse error.*"
 }
 
