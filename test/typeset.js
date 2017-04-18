@@ -2,7 +2,7 @@
 
 let should = require('chai').should();
 let sinon = require('sinon');
-let mj = require("mathjax-node/lib/mj-single.js");
+let mj = require("mathjax-node/lib/main.js");
 let typeset = require('../typeset');
 
 describe('typeset', function() {

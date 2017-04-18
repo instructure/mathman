@@ -1,12 +1,12 @@
 'use strict';
 
-let mj = require("mathjax-node/lib/mj-single.js");
+let mj = require("mathjax-node/lib/main.js");
 
 let mjConfig = function(tex) {
   return {
     math: cleanTex(tex),
     format: "inline-TeX",
-    svg:true,
+    svg: true,
     mml: true,
     speakText: false,
     ex: 6,
