@@ -11,7 +11,7 @@ It can either be run locally via `docker-compose`, or on Amazon Lambda.
 5. Run `docker-compose up`.
 
 This will launch the microservice, along with a Redis cache. The service
-is available at `http://mathman.dev`.
+is available at `http://mathman.docker`.
 
 The API interface is `/mml?tex=<tex-string>` or `svg?tex=<tex-string>`.
 
