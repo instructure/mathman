@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Microservice for converting LaTeX to MathML and SVG",
   "dependencies": {
-    "mathjax-node": "^1.0.1",
+    "mathjax": "2.7.2",
+    "mathjax-node": "1.0.2",
     "redis": "^2.6.0-0"
   },
   "devDependencies": {

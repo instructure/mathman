@@ -1,8 +1,16 @@
 'use strict';
 
 let mj = require("mathjax-node/lib/main.js");
+mj.config({
+  MathJax: {
+    TeX: {
+      extensions: ["color.js"]
+    }
+  }
+});
 
-let mjConfig = function(tex) {
+
+let typesetConfig = function(tex) {
   return {
     math: cleanTex(tex),
     format: "inline-TeX",
@@ -31,7 +39,7 @@ let mjCallback = function(cb) {
 
 // Public
 let typeset = function(tex, cb) {
-  mj.typeset(mjConfig(tex), mjCallback(cb));
+  mj.typeset(typesetConfig(tex), mjCallback(cb));
 };
 
 module.exports = typeset;
