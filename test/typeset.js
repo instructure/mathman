@@ -102,4 +102,17 @@ describe('typeset', function() {
       done();
     });
   })
+
+  it('should not fail with color command at the end', function(done) {
+    const sampleTex = "hi\\color\{Red\}"
+    const sampleLaTeXOutput = "transform=\"translate";
+    typeset(sampleTex, function(err, data) {
+      try {
+        data.should.have.property('svg').which.is.a('string').and.contains(sampleLaTeXOutput)
+      } catch (err) {
+        return done(err);
+      }
+      done();
+    });
+  });
 });
