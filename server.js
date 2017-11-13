@@ -50,9 +50,14 @@ class Server  {
     res.end();
   }
 
+  // account for bytesize of unicode characters like '£'
+  getByteCount(str) {
+    return encodeURI(str).split(/%..|./).length - 1;
+  }
+
   sendResponse(res, type, body) {
     let headers = {'Content-Type': type === 'svg' ? 'image/svg+xml' : 'application/mathml+xml'};
-    headers['content-length'] = body.length;
+    headers['content-length'] = this.getByteCount(body);
     res.writeHead(200, headers);
     res.end(body);
   }
