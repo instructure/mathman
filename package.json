@@ -9,8 +9,9 @@
   },
   "devDependencies": {
     "aws-sdk": "^2.1.27",
-    "colors": "^1.1.2",
     "chai": "^3.5.0",
+    "colors": "^1.1.2",
+    "jsdom": "^9.8.3",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3"
   },

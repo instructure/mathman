@@ -4,6 +4,7 @@ let should = require('chai').should();
 let sinon = require('sinon');
 let mj = require("mathjax-node/lib/main.js");
 let typeset = require('../typeset');
+const jsdom = require('jsdom');
 
 describe('typeset', function() {
   let ts;
@@ -115,4 +116,24 @@ describe('typeset', function() {
       done();
     });
   });
+
+  it('should have a fill for text nodes of unrecognized characters', done => {
+    const sampleTex = '£ = a + b';
+    typeset(sampleTex, function(err, data) {
+      jsdom.env(data.svg, [], (err, window) => {
+        if (err) {
+          return done(err)
+        }
+        try {
+          for (let elem of window.document.getElementsByTagName('text')) {
+            elem.hasAttribute('fill').should.equal(true);
+            elem.getAttribute('fill').should.equal('currentColor');
+          }
+        } catch (err) {
+          return done(err);
+        }
+      })
+      done();
+    });
+  })
 });
