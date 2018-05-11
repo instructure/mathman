@@ -19,7 +19,7 @@ describe('server', function () {
     });
 
     afterEach(function () {
-      redis.createClient.reset();
+      redis.createClient.resetHistory();
     });
 
     it('should not use redis when host and port not passed', function () {
@@ -60,8 +60,8 @@ describe('server', function () {
     });
 
     afterEach(function () {
-      res.writeHead.reset();
-      res.end.reset();
+      res.writeHead.resetHistory();
+      res.end.resetHistory();
     });
 
     it('should call writeHead properly', function () {
@@ -97,8 +97,8 @@ describe('server', function () {
     });
 
     afterEach(function () {
-      res.writeHead.reset();
-      res.end.reset();
+      res.writeHead.resetHistory();
+      res.end.resetHistory();
     });
 
     it('should call writeHead properly', function () {
@@ -152,8 +152,8 @@ describe('server', function () {
     });
 
     afterEach(function () {
-      res.writeHead.reset();
-      res.end.reset();
+      res.writeHead.resetHistory();
+      res.end.resetHistory();
     });
 
     it('should send SVG content-type header', function () {
@@ -380,7 +380,7 @@ describe('server', function () {
         args[0].should.equal(res);
         args[1].should.equal(405);
         args[2].should.equal("Method not allowed.");
-        server.sendError.reset();
+        server.sendError.resetHistory();
       }
       let req = {
         url: `http://localhost/svg/?tex=${escapedTex}`,
@@ -401,7 +401,7 @@ describe('server', function () {
         args[0].should.equal(res);
         args[1].should.equal(404);
         args[2].should.equal("Not Found");
-        server.sendError.reset();
+        server.sendError.resetHistory();
       }
       let validTypes = ['svg', 'mml'];
       for (let type of validTypes) {
@@ -413,7 +413,7 @@ describe('server', function () {
       server.handleRequest(req, res);
       console.dir(server.sendError.args);
       server.sendError.calledOnce.should.be.false;
-      server.sendError.reset();
+      server.sendError.resetHistory();
       }
     });
 
