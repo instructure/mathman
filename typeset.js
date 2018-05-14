@@ -2,11 +2,7 @@
 
 let mj = require("mathjax-node/lib/main.js");
 mj.config({
-  MathJax: {
-    TeX: {
-      extensions: ["color.js"]
-    }
-  }
+  extensions: "TeX/color"
 });
 
 
