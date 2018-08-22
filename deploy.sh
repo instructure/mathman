@@ -5,7 +5,7 @@ GIT_SHA=$(git rev-parse --short HEAD)
 
 echo "ENVIRONMENT: $ENVIRONMENT"
 
-docker-compose run --rm web npm install && ./deploy/package $GIT_SHA
+docker-compose run -u 0 --rm web npm install && ./deploy/package $GIT_SHA
 
 (cd deploy && make setup ENV=$ENVIRONMENT && make plan ENV=$ENVIRONMENT)
 

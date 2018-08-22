@@ -1,4 +1,3 @@
 docker-compose.override.yml
 deploy/.terraform
 node_modules/
-lambda.zip
