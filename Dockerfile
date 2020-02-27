@@ -1,4 +1,4 @@
-FROM instructure/node-passenger:8-xenial
+FROM instructure/node-passenger:12
 MAINTAINER Instructure
 
 USER root
