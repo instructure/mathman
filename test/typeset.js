@@ -28,7 +28,7 @@ describe('typeset', function() {
   it('should call mj.typeset with the correct parameters', function(done) {
     this.timeout(10000);
     let sampleTex = "a = b + c";
-    typeset(sampleTex, function(err) {
+    typeset({tex: sampleTex}, function(err) {
       if (err) {
         return done(err);
       }
@@ -53,7 +53,7 @@ describe('typeset', function() {
 
   it('should return data', function (done) {
     let sampleTex = "a = b + c";
-    typeset(sampleTex, function(err, data) {
+    typeset({tex: sampleTex}, function(err, data) {
       try {
         should.not.exist(err);
         data.should.be.an('object');
@@ -68,7 +68,7 @@ describe('typeset', function() {
 
   it('replaces `\\slash` with `/`', function (done) {
     let sampleTex = "5 = 15 \\slash 3";
-    typeset(sampleTex, function(err, data) {
+    typeset({tex: sampleTex}, function(err, data) {
       try {
         data.mml.should.not.match(/\\slash/);
       } catch (err) {
@@ -80,7 +80,7 @@ describe('typeset', function() {
 
   it('should fail on bad input', function (done) {
     let sampleTex = "a = \fra{}}";
-    typeset(sampleTex, function(err, data) {
+    typeset({tex: sampleTex}, function(err, data) {
       try {
         should.not.exist(data);
         err.should.be.an('array').and.not.empty;
@@ -94,7 +94,7 @@ describe('typeset', function() {
   it('should use LaTeX \color commands', function (done) {
     const sampleTex = "\\color\{Red\}hi";
     const sampleLaTeXOutput = "transform=\"translate";
-    typeset(sampleTex, function(err, data) {
+    typeset({tex: sampleTex}, function(err, data) {
       try {
         data.should.have.property('svg').which.is.a('string').and.contains(sampleLaTeXOutput)
       } catch (err) {
@@ -107,7 +107,7 @@ describe('typeset', function() {
   it('should not fail with color command at the end', function(done) {
     const sampleTex = "hi\\color\{Red\}"
     const sampleLaTeXOutput = "transform=\"translate";
-    typeset(sampleTex, function(err, data) {
+    typeset({tex: sampleTex}, function(err, data) {
       try {
         data.should.have.property('svg').which.is.a('string').and.contains(sampleLaTeXOutput)
       } catch (err) {
@@ -119,7 +119,7 @@ describe('typeset', function() {
 
   it('should have a fill for text nodes of unrecognized characters', done => {
     const sampleTex = '£ = a + b';
-    typeset(sampleTex, function(err, data) {
+    typeset({tex: sampleTex}, function(err, data) {
       const dom = new JSDOM(data.svg);
       try {
         for (let elem of dom.window.document.getElementsByTagName('text')) {
@@ -130,6 +130,23 @@ describe('typeset', function() {
         return done(err);
       }
       done();
+    });
+  })
+
+  it('should scale svg output', done => {
+    debugger
+    const sampleTex = "a = b + c";
+    typeset({tex: sampleTex, scale: 1}, function(err, data) {
+      try {
+        const unscaled_width = data.svg.match(/width="([\d.]+)ex"/)[1]
+        typeset({tex: sampleTex, scale: 2}, function(err, data) {
+          const scaled_width = data.svg.match(/width="([\d.]+)ex"/)[1]
+          scaled_width.should.equal(`${2 * unscaled_width}`)
+          done()
+        })
+      } catch (err) {
+        return done(err);
+      }
     });
   })
 });
