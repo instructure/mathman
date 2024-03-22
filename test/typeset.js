@@ -134,7 +134,6 @@ describe('typeset', function() {
   })
 
   it('should scale svg output', done => {
-    debugger
     const sampleTex = "a = b + c";
     typeset({tex: sampleTex, scale: 1}, function(err, data) {
       try {
@@ -147,6 +146,18 @@ describe('typeset', function() {
       } catch (err) {
         return done(err);
       }
+    });
+  })
+
+  it('should be safe with javascript', done => {
+    const sampleTex = "\href{javascript:alert(\"Einstein says so!\")}{=} mc^2";
+    typeset({tex: sampleTex}, function(err, data) {
+      try {
+        data.svg.should.not.match(/javascript/)
+      } catch (err) {
+        return done(err);
+      }
+      done();
     });
   })
 });
