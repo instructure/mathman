@@ -38,4 +38,4 @@ where:
 2. Run `docker-compose run --rm web ./deploy/package $(git rev-parse --short HEAD)`.
 
 The result will be `build/lambda.zip` which can be uploaded to AWS as a
-lambda function.
+lambda function using the mathman-deploy deployer role.
