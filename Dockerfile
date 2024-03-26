@@ -1,4 +1,4 @@
-FROM instructure/node-passenger:12
+FROM instructure/node-passenger:18
 MAINTAINER Instructure
 
 USER root
