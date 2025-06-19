@@ -2,7 +2,7 @@
 
 let should = require('chai').should();
 let sinon = require('sinon');
-let mj = require("mathjax-node/lib/main.js");
+let mj = require("mathjax-node");
 let typeset = require('../typeset');
 const { JSDOM } = require('jsdom');
 
@@ -11,6 +11,7 @@ describe('typeset', function() {
   this.timeout(10000);
 
   before(function() {
+    mj.start();
     sinon.spy(mj, 'start');
     sinon.spy(mj, 'typeset');
   });

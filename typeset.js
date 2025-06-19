@@ -1,13 +1,13 @@
 'use strict';
 
-let mj = require("mathjax-node/lib/main.js");
+let mj = require("mathjax-node");
 mj.config({
   extensions: "TeX/color",
   MathJax: {
     extensions: ["Safe.js"]
   }
 });
-
+mj.start();
 
 let typesetConfig = function(tex) {
   return {
